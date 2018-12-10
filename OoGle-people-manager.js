@@ -26,29 +26,68 @@ if (!fs.existsSync('./programmers.json')) {
 // Build our routes
 
 app.get('/', (req, res) => {
-  res.send('Fill me in to return ALL programmers!');
+  res.send(dbArr);
 });
 
 app.get('/:id', (req, res) => {
   const id = req.params.id;
-
-  res.send(`Fill me in to return values with ID: ${id}`);
+  var listID  = req.params.id;
+  dbArr.forEach(i => {
+	  	listID.push(i);
+	  	}
+});
+	if (idList.length == 0){
+			res.send('Error: no IDs');
+	}
+	else{
+		res.send(listID);
+	}
 });
 
 app.put('/:id', (req, res) => {
   const id = req.params.id;
+  const body = req.body;
+  const bodyKey = Object.keys(body);
 
-  res.send(`Fill me in to update values with ID: ${id}`);
+	var index = dbArr.length - 1;
+	while(index >= 0){
+	  if (dbArr[index].SID == id){
+		  dbArr.splice(index, 1);
+	  }
+	 index--;	
+	});
+  let info = {};
+  dbKey.forEach(x => {
+	  if (body[x]){
+		info[x] = body[x];
+	  }
+	  else{
+		  info[x]="";
+	  }
+  });
+  dbrr.push(info);
+ res.send('Updated Values with ID');
 });
 
 app.post('/', (req, res) => {
   const body = req.body; // Hold your JSON in here!
-
+  const bodyKey = Object.keys(body);
+  let info = {};
+  dbKey.forEach(x => {
+	  if(body[x]){
+		  info[x] = body[x];
+	  }
+	  else{
+		  info[x] = "";
+	  }
+  });
   res.send(`You sent: ${body}`);
 });
 
 // IMPLEMENT A ROUTE TO HANDLE ALL OTHER ROUTES AND RETURN AN ERROR MESSAGE
-
+app.all('*',(req, res) => {
+	res.send("Error, invalid.");
+});
 app.listen(port, () => {
   console.log(`She's alive on port ${port}`);
 });
