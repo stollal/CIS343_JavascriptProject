@@ -36,7 +36,7 @@ app.get('/:id', (req, res) => {
 	  	listID.push(i);
 	  	}
 });
-	if (idList.length == 0){
+	if (listID.length == 0){
 			res.send('Error: no IDs');
 	}
 	else{
